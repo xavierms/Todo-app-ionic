@@ -48,27 +48,35 @@ export class HomePage {
     //   },
     // ]
   }
-  form:FormGroup = this.fb.group({
+  form: FormGroup = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(2)]],
-  })
+    priority: [''],
+    category: ['']
+  });
+
+
   todos: Todo[] = [];
-
+  priorities = ['high','middle','low'];
+  categories = ['work','study'];
   today: number = Date.now();
+  isSubmitted = false;
+  isModalOpen = false;
+  get errorControl() {
+    return this.form.controls;
+  }
   submitForm() {
-
+    this.isSubmitted = true;
+    if (!this.form.valid) {
+      return false;
+    } else {
+      console.log(this.form.value);
+    }
   }
-  onWillDismiss(e: any){
-    console.log(e);
-    
-  }
-  cancel(){
-
+  setOpen(isOpen: boolean) {
+    this.isModalOpen = isOpen;
   }
 
-  confirm(){
-
-  }
   isColorPriority(priority: string){
-  return priority === 'high' ? 'red':(priority === 'low'?'green':'orange')
+  return priority === 'high' ? 'red':(priority === 'low'?'green':'orange');
   }
 }

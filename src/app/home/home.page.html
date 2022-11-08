@@ -49,48 +49,63 @@
 	</ion-card>
 	<ion-fab vertical="bottom" horizontal="end" slot="fixed">
 		<ion-fab-button>
-			<ion-icon name="add"  id="open-modal" expand="block"></ion-icon>
+			<ion-icon name="add" id="open-modal" expand="block" (click)="setOpen(true)"></ion-icon>
 		</ion-fab-button>
 	</ion-fab>
-	<ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+	<ion-modal [isOpen]="isModalOpen">
 		<ng-template>
-		  <ion-header>
-			<ion-toolbar>
-			  <ion-buttons slot="start">
-				<ion-button (click)="cancel()">Cancel</ion-button>
-			  </ion-buttons>
-			  <ion-title>Welcome</ion-title>
-			  <ion-buttons slot="end">
-				<ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>
-			  </ion-buttons>
-			</ion-toolbar>
-		  </ion-header>
-		  <ion-content class="ion-padding">
-			<form [formGroup]="form" (ngSubmit)="submitForm()" novalidate>
-				<ion-item lines="full">
-				  <ion-label position="floating">Name</ion-label>
-				  <ion-input formControlName="name" type="text"></ion-input>
-				</ion-item>
-				
-				<ion-item lines="full">
-				  <ion-label position="floating">Email</ion-label>
-				  <ion-input formControlName="email" type="email"></ion-input>
-				</ion-item>
-				
+			<ion-header>
+				<ion-toolbar>
+					<ion-buttons slot="start">
+						<ion-button (click)="setOpen(false)">Cancel</ion-button>
+					</ion-buttons>
+					<ion-title>TODO</ion-title>
+				</ion-toolbar>
+			</ion-header>
+			<ion-content class="ion-padding">
+				<form [formGroup]="form" (ngSubmit)="submitForm()" novalidate>
+					<ion-item lines="full">
+						<ion-label position="floating">Name</ion-label>
+						<ion-input formControlName="name" type="text"></ion-input>
+					</ion-item>
+					<!-- Error messages -->
+					<span class="error ion-padding" *ngIf="isSubmitted && errorControl.name.errors?.required">
+						Name is required.
+					</span>
+					<span class="error ion-padding" *ngIf="isSubmitted && errorControl.name.errors?.minlength">
+						Name should be min 2 chars long.
+					</span>
+					<ion-list>
+						<ion-item>
+							<ion-select interface="popover" placeholder="Select priority" formControlName="priority">
+								<ion-select-option  [value]="priority" *ngFor="let priority of priorities">
+									{{priority}}
+								</ion-select-option>
 
-				<ion-item lines="full">
-				  <ion-label position="floating">Mobile</ion-label>
-				  <ion-input maxlength="10" formControlName="mobile" type="text" required></ion-input>
-				</ion-item>
-			
-				<ion-row>
-				  <ion-col>
-					<ion-button type="submit" color="danger" expand="block">Submit</ion-button>
-				  </ion-col>
-				</ion-row>
-			  </form>
+							</ion-select>
+						</ion-item>
+					</ion-list>
 
-		  </ion-content>
+
+					<ion-list>
+						<ion-item>
+							<ion-select interface="popover" placeholder="Select category" formControlName="category">
+								<ion-select-option [value]="category"  *ngFor="let category of categories">
+									{{category}}
+								</ion-select-option>
+
+							</ion-select>
+						</ion-item>
+					</ion-list>
+
+					<ion-row>
+						<ion-col>
+							<ion-button type="submit" [disabled]="form.invalid" color="danger" expand="block">Add todo</ion-button>
+						</ion-col>
+					</ion-row>
+				</form>
+
+			</ion-content>
 		</ng-template>
-	  </ion-modal>
+	</ion-modal>
 </ion-content>
