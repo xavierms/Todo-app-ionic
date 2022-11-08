@@ -1,0 +1,36 @@
+<ion-card *ngFor="let item of todos" class="ion-margin">
+  <ion-card-header>
+    <ion-card-subtitle [style.color]="isColorPriority(item.itemPriority)">
+      {{item.itemCategory}}
+    </ion-card-subtitle>
+    <ion-item>
+      <ion-icon *ngIf="item.itemPriority === 'high'" color="danger" size="small" name="ellipse"></ion-icon>
+      <ion-icon *ngIf="item.itemPriority === 'middle'" color="warning" size="small" name="ellipse"></ion-icon>
+      <ion-icon *ngIf="item.itemPriority === 'low'" color="success" size="small" name="ellipse"></ion-icon>
+      <p>{{item.itemName}}</p>
+    </ion-item>
+  </ion-card-header>
+
+  <ion-card-content>
+    <ion-label> Due {{item.itemDueDate | date:'fullDate'}}</ion-label>
+  </ion-card-content>
+
+  <ion-row>
+
+    <ion-item>
+      <ion-icon name="share-outline"></ion-icon>
+      <p>Share</p>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="checkmark-outline"></ion-icon>
+      <p>Complete</p>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="trash-outline"></ion-icon>
+      <p>Delete</p>
+    </ion-item>
+  </ion-row>
+
+</ion-card>
