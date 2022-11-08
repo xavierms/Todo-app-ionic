@@ -5,6 +5,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
+import { TodoCardComponent } from './todo-card/todo-card.component';
+import { SharedModule } from '../shared/shared.module';
+import { TodoFormComponent } from './todo-form/todo-form.component';
 
 
 @NgModule({
@@ -13,8 +16,13 @@ import { HomePageRoutingModule } from './home-routing.module';
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
-  declarations: [HomePage]
+  declarations: [
+    HomePage,
+    TodoCardComponent,
+    TodoFormComponent
+  ]
 })
 export class HomePageModule {}

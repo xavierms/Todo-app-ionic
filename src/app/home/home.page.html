@@ -1,55 +1,14 @@
-<ion-header [translucent]="true">
-	<ion-toolbar>
-		<ion-item lines="none">
-			<ion-label style="font-weight: 800;font-size: 3em;">
-				Today
-				<p style="font-weight: 400">{{today | date:'fullDate'}}</p>
-			</ion-label>
-		</ion-item>
-	</ion-toolbar>
-</ion-header>
+<app-header [title]="title">
+	<p style="font-weight: 400">{{today | date:'fullDate'}}</p>
+</app-header>
 
 <ion-content [fullscreen]="true">
 
-	<ion-card *ngFor="let item of todos" class="ion-margin">
-		<ion-card-header>
-			<ion-card-subtitle [style.color]="isColorPriority(item.itemPriority)">
-				{{item.itemCategory}}
-			</ion-card-subtitle>
-			<ion-item>
-				<ion-icon *ngIf="item.itemPriority === 'high'" color="danger" size="small" name="ellipse"></ion-icon>
-				<ion-icon *ngIf="item.itemPriority === 'middle'" color="warning" size="small" name="ellipse"></ion-icon>
-				<ion-icon *ngIf="item.itemPriority === 'low'" color="success" size="small" name="ellipse"></ion-icon>
-				<ion-icon>{{item.itemName}}</ion-icon>
-			</ion-item>
-		</ion-card-header>
+	<app-todo-card [todos]="todos"></app-todo-card>
 
-		<ion-card-content>
-			<ion-label> Due {{item.itemDueDate | date:'fullDate'}}</ion-label>
-		</ion-card-content>
-
-		<ion-row>
-
-			<ion-item>
-				<ion-icon name="share-outline"></ion-icon>
-				<p>Share</p>
-			</ion-item>
-
-			<ion-item>
-				<ion-icon name="checkmark-outline"></ion-icon>
-				<p>Complete</p>
-			</ion-item>
-
-			<ion-item>
-				<ion-icon name="trash-outline"></ion-icon>
-				<p>Cancel</p>
-			</ion-item>
-		</ion-row>
-
-	</ion-card>
 	<ion-fab vertical="bottom" horizontal="end" slot="fixed">
 		<ion-fab-button>
-			<ion-icon name="add" id="open-modal" expand="block" (click)="setOpen(true)"></ion-icon>
+			<ion-icon name="add" id="open-modal" expand="block" (click)="setOpenModal()"></ion-icon>
 		</ion-fab-button>
 	</ion-fab>
 	<ion-modal [isOpen]="isModalOpen">
@@ -57,54 +16,13 @@
 			<ion-header>
 				<ion-toolbar>
 					<ion-buttons slot="start">
-						<ion-button (click)="setOpen(false)">Cancel</ion-button>
+						<ion-button (click)="setCloseModal()" color="danger">Cancel</ion-button>
 					</ion-buttons>
 					<ion-title>TODO</ion-title>
 				</ion-toolbar>
 			</ion-header>
 			<ion-content class="ion-padding">
-				<form [formGroup]="form" (ngSubmit)="submitForm()" novalidate>
-					<ion-item lines="full">
-						<ion-label position="floating">Name</ion-label>
-						<ion-input formControlName="name" type="text"></ion-input>
-					</ion-item>
-					<!-- Error messages -->
-					<span class="error ion-padding" *ngIf="isSubmitted && errorControl.name.errors?.required">
-						Name is required.
-					</span>
-					<span class="error ion-padding" *ngIf="isSubmitted && errorControl.name.errors?.minlength">
-						Name should be min 2 chars long.
-					</span>
-					<ion-list>
-						<ion-item>
-							<ion-select interface="popover" placeholder="Select priority" formControlName="priority">
-								<ion-select-option  [value]="priority" *ngFor="let priority of priorities">
-									{{priority}}
-								</ion-select-option>
-
-							</ion-select>
-						</ion-item>
-					</ion-list>
-
-
-					<ion-list>
-						<ion-item>
-							<ion-select interface="popover" placeholder="Select category" formControlName="category">
-								<ion-select-option [value]="category"  *ngFor="let category of categories">
-									{{category}}
-								</ion-select-option>
-
-							</ion-select>
-						</ion-item>
-					</ion-list>
-
-					<ion-row>
-						<ion-col>
-							<ion-button type="submit" [disabled]="form.invalid" color="danger" expand="block">Add todo</ion-button>
-						</ion-col>
-					</ion-row>
-				</form>
-
+				<app-todo-form (dataForm)="clearForm($event)" (todoAdded)="postTodo($event)" (isModalOpen)="isModalOpen = $event"></app-todo-form>
 			</ion-content>
 		</ng-template>
 	</ion-modal>

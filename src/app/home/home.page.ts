@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Todo } from '../interfaces/todo';
+import { FormGroup } from '@angular/forms';
 
-export interface Todo{
-  itemName: string;
-  itemDueDate: string;
-  itemPriority: string;
-  itemCategory: string;
-}
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -14,69 +9,29 @@ export interface Todo{
 })
 export class HomePage {
 
-  constructor(private fb: FormBuilder) {
-    // this.todos = [
-    //   {
-    //     itemName:'coding',
-    //     itemDueDate:'07-11-2022',
-    //     itemPriority:'high',
-    //     itemCategory:'Work'
-    //   },
-    //   {
-    //     itemName:'other',
-    //     itemDueDate:'07-11-2022',
-    //     itemPriority:'low',
-    //     itemCategory:'Work'
-    //   },
-    //   {
-    //     itemName:'other x2',
-    //     itemDueDate:'07-11-2022',
-    //     itemPriority:'middle',
-    //     itemCategory:'Work'
-    //   },
-    //   {
-    //     itemName:'other x2',
-    //     itemDueDate:'07-11-2022',
-    //     itemPriority:'middle',
-    //     itemCategory:'Work'
-    //   },
-    //   {
-    //     itemName:'other x2',
-    //     itemDueDate:'07-11-2022',
-    //     itemPriority:'middle',
-    //     itemCategory:'Work'
-    //   },
-    // ]
-  }
-  form: FormGroup = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(2)]],
-    priority: [''],
-    category: ['']
-  });
-
+  constructor() {  }
 
   todos: Todo[] = [];
-  priorities = ['high','middle','low'];
-  categories = ['work','study'];
+
+  title= "Today";
   today: number = Date.now();
-  isSubmitted = false;
-  isModalOpen = false;
-  get errorControl() {
-    return this.form.controls;
+  isModalOpen: boolean = false;
+
+  postTodo(todo: Todo){
+    this.todos.push(todo);
   }
-  submitForm() {
-    this.isSubmitted = true;
-    if (!this.form.valid) {
-      return false;
-    } else {
-      console.log(this.form.value);
-    }
+
+  setOpenModal() {
+    this.isModalOpen = !this.isModalOpen;
   }
-  setOpen(isOpen: boolean) {
-    this.isModalOpen = isOpen;
+  setCloseModal(){
+    this.isModalOpen = !this.isModalOpen;
+  }
+  clearForm(form: FormGroup){
+    form.reset();
   }
 
   isColorPriority(priority: string){
-  return priority === 'high' ? 'red':(priority === 'low'?'green':'orange');
+    return priority === 'high' ? 'red':(priority === 'low'?'green':'orange');
   }
 }
