@@ -1,0 +1,37 @@
+<form [formGroup]="form" (ngSubmit)="submitForm()" novalidate>
+  <ion-item lines="full">
+    <ion-label position="floating">Name</ion-label>
+    <ion-input formControlName="name" type="text"></ion-input>
+  </ion-item>
+  <!-- Error messages -->
+  <span class="error ion-padding" *ngIf="errorControl.name.errors?.required && form.touched">
+    Name is required.
+  </span>
+  <span class="error ion-padding" *ngIf="errorControl.name.errors?.minlength && form.touched">
+    Name should be min 2 chars long.
+  </span>
+  <ion-list>
+    <ion-item>
+      <ion-select interface="popover" placeholder="Select priority" formControlName="priority">
+        <ion-select-option [value]="priority" *ngFor="let priority of priorities">
+          {{priority}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-item>
+      <ion-select interface="popover" placeholder="Select category" formControlName="category">
+        <ion-select-option [value]="category" *ngFor="let category of categories">
+          {{category}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+  <ion-row>
+    <ion-col>
+      <ion-button type="submit" [disabled]="form.invalid" color="danger" expand="block">Add todo
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</form>
