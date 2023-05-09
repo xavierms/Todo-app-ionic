@@ -1,4 +1,5 @@
-<ion-card *ngFor="let item of todos" class="ion-margin">
+<ion-card *ngFor="let item of todos;let i = index" class="ion-margin">
+
   <ion-card-header>
     <ion-card-subtitle [style.color]="isColorPriority(item.itemPriority)">
       {{item.itemCategory}}
@@ -15,22 +16,28 @@
     <ion-label> Due {{item.itemDueDate | date:'fullDate'}}</ion-label>
   </ion-card-content>
 
-  <ion-row>
+  <ion-row class="item-row">
 
-    <ion-item>
+    <ion-item class="item">
       <ion-icon name="share-outline"></ion-icon>
       <p>Share</p>
     </ion-item>
 
-    <ion-item>
+    <ion-item class="item">
       <ion-icon name="checkmark-outline"></ion-icon>
       <p>Complete</p>
     </ion-item>
 
-    <ion-item>
+    <ion-item class="item" (click)="onDelete(i)">
       <ion-icon name="trash-outline"></ion-icon>
       <p>Delete</p>
     </ion-item>
   </ion-row>
 
+</ion-card>
+
+<ion-card>
+  <ion-card-header *ngIf="todos.length === 0">
+    <p>No tasks registered.</p>
+  </ion-card-header>
 </ion-card>

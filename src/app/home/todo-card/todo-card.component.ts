@@ -17,4 +17,10 @@ export class TodoCardComponent implements OnInit {
   isColorPriority(priority: string){
     return priority === 'high' ? 'red':(priority === 'low'?'green':'orange');
   }
+  onDelete(index : number){
+    console.log(index);
+    this.todos.splice(index,1);
+    console.log(this.todos);
+    
+  }
 }
