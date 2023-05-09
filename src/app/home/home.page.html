@@ -7,8 +7,8 @@
 	<app-todo-card [todos]="todos"></app-todo-card>
 
 	<ion-fab vertical="bottom" horizontal="end" slot="fixed">
-		<ion-fab-button>
-			<ion-icon name="add" id="open-modal" expand="block" (click)="setOpenModal()"></ion-icon>
+		<ion-fab-button (click)="setOpenModal()">
+			<ion-icon name="add" id="open-modal" expand="block" ></ion-icon>
 		</ion-fab-button>
 	</ion-fab>
 	<ion-modal [isOpen]="isModalOpen">
